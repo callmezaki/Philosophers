@@ -18,6 +18,13 @@ $(NAME): $(OBJS)
 # $(CHECK):$(OBJ_B)
 # 	@cc  $(CFLAGS) -I $(INCLUDE_B) -o $(CHECK) $^ 
 
+push:fclean
+	@rm -rf outfile
+	@git add .
+	@read -p "Message:" message; \
+	git commit -m "$$message"; \
+	git push origin master
+
 clean:
 	@rm -f $(OBJS)
 fclean: clean
