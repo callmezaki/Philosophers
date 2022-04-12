@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 14:56:48 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/04/12 17:35:28 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/04/12 18:05:28 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,7 @@ int get_msec_time(void)
 void	hold_right_fork(t_info *info)
 {
 	int time;
-	printf("%d  philo %d has taken right fork\n",)
-	printf("%d  philo %d has taken right fork\n",)
+	printf("%d  philo %d has taken right fork\n",);
 }
 
 void	*ft_test(t_info *info)
