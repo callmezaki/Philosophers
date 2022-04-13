@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 14:56:48 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/04/12 18:05:28 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/04/13 00:32:57 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,10 @@ void init_vars(int ac, char **av,t_vars *vars)
 	{
 		vars->nb_of_philos = atoi(av[1]);
 		vars->number_of_forks = vars->nb_of_philos;
-		vars->time_to_die = ft_atoi(av[2]);
-		vars->time_to_die = atoi(av[3]);
+		vars->time_to_die = atoi(av[2]);
+		vars->time_to_eat = ft_atoi(av[3]);
 		vars->time_to_sleep = atoi(av[4]);
+		vars->starting_time = get_msec_time();
 		if (ac == 6)
 			vars->number_of_times_each_philo_must_eat = atoi(av[5]);
 	}
@@ -50,20 +51,48 @@ int get_msec_time(void)
 	return(result);
 }
 
-void	hold_right_fork(t_info *info)
+void	take_a_fork(t_info *info)
 {
 	int time;
-	printf("%d  philo %d has taken right fork\n",);
+	if (info->vars->number_of_forks)
+	{
+		time = get_msec_time() - info->vars->starting_time;
+		pthread_mutex_lock(info->vars->mutex);
+		info->forks_held++;
+		info->vars->number_of_forks--;	
+		printf("%d  philo %d has taken a fork\n",time ,info->philo_id);
+		pthread_mutex_unlock(info->vars->mutex);
+	}
+}
+
+void	philo_started_eating(t_info *info)
+{
+	int time;
+	time = get_msec_time() - info->vars->starting_time;
+	pthread_mutex_lock(info->vars->mutex);
+	info->forks_held++;
+	printf("%d  philo %d started eating\n",time ,info->philo_id);
+	pthread_mutex_unlock(info->vars->mutex);
+	usleep(info->vars->time_to_eat * 1000);
+	time = get_msec_time() - info->vars->starting_time;
+	pthread_mutex_lock(info->vars->mutex);
+	info->forks_held = 0;
+	info->vars->number_of_forks=+2;
+	printf("%d  philo %d is sleeping\n",time ,info->philo_id);
+	pthread_mutex_unlock(info->vars->mutex);
+	usleep(info->vars->time_to_sleep * 1000);
 }
 
 void	*ft_test(t_info *info)
 {
-	pthread_mutex_lock(info->vars->mutex);
-	if(info->philo_id == 1 && !info->forks_held)
+	while(1)
 	{
-		
+	take_a_fork(info);
+	if (info->forks_held == 2)
+		philo_started_eating(info);
+	// pthread_mutex_lock(info->vars->mutex);
+	// pthread_mutex_unlock(info->vars->mutex);
 	}
-	pthread_mutex_unlock(info->vars->mutex);
 	return (NULL);
 }
 

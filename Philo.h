@@ -21,6 +21,7 @@ typedef struct s_vars
 	int number_of_times_each_philo_must_eat;
 	int	one_dead;
 	pthread_mutex_t *mutex;
+	int starting_time;
 	int i;
 	int j;
 }	t_vars;
@@ -32,6 +33,7 @@ typedef struct s_info
 	int	time_to_die;
 	int	time_to_eat;
 	int	time_to_sleep;
+	int	time_think;
 	int alive;
 	int present_time;
 	t_vars *vars;
