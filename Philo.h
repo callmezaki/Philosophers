@@ -24,6 +24,7 @@ typedef struct s_vars
 	int starting_time;
 	int i;
 	int j;
+	int *tab_forks;
 }	t_vars;
 
 typedef struct s_info
@@ -42,7 +43,14 @@ typedef struct s_info
 
 
 
-int	ft_atoi(const char *str);
-int get_msec_time(void);
+int		ft_atoi(const char *str);
+int		get_msec_time(void);
+void	philo_sleeping(t_info *info);
+void	philo_started_eating(t_info *info);
+void	take_left_fork(t_info *info);
+void	take_right_fork(t_info *info);
+void	put_down_forks(t_info *info);
+int		check_right_fork_aviability(t_info *info);
+int		check_left_fork_aviability(t_info *info);
 
 #endif
