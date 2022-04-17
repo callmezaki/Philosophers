@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 14:56:48 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/04/17 16:57:32 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/04/17 17:07:09 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,6 @@ void philo_is_dead_check(t_info *info)
 	{
 		printf("%d  philo %d is dead\n",t ,info->philo_id);
 		info->vars->one_dead = true;
-		// detach_all(vars);
 		exit(0);
 	}
 }
