@@ -1,6 +1,6 @@
-NAME = Philo
-INCLUDE = Philo.h
-SRC =	Philo.c \
+NAME = philo
+INCLUDE = philo.h
+SRC =	philo.c \
 		ft_atoi.c \
 		
 CFLAGS = -Wall -Wextra -Werror

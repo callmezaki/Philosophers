@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Philo.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/16 00:38:15 by zait-sli          #+#    #+#             */
+/*   Updated: 2022/04/16 01:04:56 by zait-sli         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 # ifndef PHILO_H
 # define PHILO_H
 
@@ -23,8 +35,8 @@ typedef struct s_vars
 	pthread_mutex_t *mutex;
 	int starting_time;
 	int i;
-	int j;
 	int *tab_forks;
+	pthread_t *th;
 }	t_vars;
 
 typedef struct s_info
@@ -52,5 +64,6 @@ void	take_right_fork(t_info *info);
 void	put_down_forks(t_info *info);
 int		check_right_fork_aviability(t_info *info);
 int		check_left_fork_aviability(t_info *info);
+void	philo_is_dead_check(t_info *info);
 
 #endif
