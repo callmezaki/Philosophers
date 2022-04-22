@@ -2,6 +2,10 @@ NAME = philo_bonus
 INCLUDE = philo_bonus.h
 SRC =	philo_bonus.c \
 		ft_atoi_bonus.c \
+		activities_bonus.c \
+		init_bonus.c \
+		forks_bonus.c \
+
 		
 CFLAGS = -Wall -Wextra -Werror
 

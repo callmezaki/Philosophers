@@ -2,6 +2,9 @@ NAME = philo
 INCLUDE = philo.h
 SRC =	philo.c \
 		ft_atoi.c \
+		init.c \
+		forks.c \
+		activities.c \
 		
 CFLAGS = -Wall -Wextra -Werror
 
