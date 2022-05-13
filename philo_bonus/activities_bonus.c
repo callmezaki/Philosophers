@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/17 17:21:34 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/04/18 22:38:49 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/05/13 21:45:23 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	philo_sleeping(t_info *info)
 			return ;
 	info->time_to_sleep = get_msec_time();
 	time = get_msec_time() - info->vars->starting_time;
-	pthread_mutex_lock(info->vars->mutex);
+	sem_wait(info->vars->sem_forks);
 	info->forks_held = 0;
 	info->vars->number_of_forks=+2;
 	if(info->philo_id == info->vars->nb_of_philos)
@@ -59,7 +59,7 @@ void	philo_sleeping(t_info *info)
 		info->vars->tab_forks[info->philo_id] = 0;
 	}
 	printf("%d  philo %d is sleeping\n",time ,info->philo_id);
-	pthread_mutex_unlock(info->vars->mutex);
+	sem_post(info->vars->sem_forks);
 	while(1)
 	{
 		if (get_msec_time()  >= info->time_to_sleep + info->vars->time_to_sleep)
@@ -85,9 +85,9 @@ void	philo_started_eating(t_info *info)
 	record_last_eaten(info);
 	time = get_msec_time() - info->vars->starting_time;
 	printf("%d  philo %d started eating\n",time ,info->philo_id);
-	pthread_mutex_lock(info->vars->mutex);
+	sem_wait(info->vars->sem_forks);
 	info->times_eaten++;
-	pthread_mutex_unlock(info->vars->mutex);
+	sem_post(info->vars->sem_forks);
 	while(1)
 	{
 		if (get_msec_time()  >= info->time_to_eat + info->vars->time_to_eat)

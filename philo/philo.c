@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 14:56:48 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/04/20 00:34:35 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/05/13 20:59:51 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,15 @@
 // 		if (info->vars->one_dead)
 // 			break ;
 // 		pthread_mutex_lock(info->vars->mutex);
-// 		else if (check_right_fork_aviability(info) && check_left_fork_aviability(info) && info->vars->number_of_forks >= 2)
+// 		if (check_right_fork_aviability(info) && check_left_fork_aviability(info) && info->vars->number_of_forks >= 2)
 // 			take_right_fork(info);
 // 		else if (check_right_fork_aviability(info) && info->forks_held == 0 && info->vars->number_of_forks > 0)
 // 			take_right_fork(info);
 // 		pthread_mutex_unlock(info->vars->mutex);
-// 		// printf("------| %d |-----\n", info->vars->number_of_forks);
-// 		// printf("------|%d has %d forks|-----\n", info->philo_id,info->forks_held);
 // 		if (info->forks_held == 2)
 // 			philo_started_eating(info);
-// 		else if (info->forks_held == 1)
-// 			philo_is_dead_check(info);
+// 		// else if (info->forks_held == 1)
+// 		// 	philo_is_dead_check(info);
 // 	}
 // 	return (NULL);
 // }
@@ -38,25 +36,19 @@ void	*ft_test(t_info *info)
 {
 	while(!info->vars->one_dead)
 	{
-		// philo_is_dead_check(info);
+		pthread_mutex_lock(info->vars->mutex);
 		if (info->vars->one_dead)
 			break ;
-		pthread_mutex_lock(info->vars->mutex);
-		if (check_left_fork_aviability(info) && info->forks_held == 1 && info->vars->number_of_forks > 0)
+		if (check_left_fork_aviability(info) && info->forks_held == 1  && info->vars->number_of_forks >= 1)
 			take_left_fork(info);
-		// if (check_left_fork_aviability(info) && info->forks_held == 1 && info->vars->number_of_forks > 0)
-		// 	take_left_fork(info);
-		else if (check_right_fork_aviability(info) && check_left_fork_aviability(info) && info->vars->number_of_forks > 0)
+		else if (check_right_fork_aviability(info) && check_left_fork_aviability(info) && info->vars->number_of_forks >= 2)
 			take_right_fork(info);
-		else if (check_right_fork_aviability(info) && info->vars->number_of_forks == 1 && info->vars->number_of_forks > 0)
+		else if (check_right_fork_aviability(info) && info->vars->number_of_forks == 1 && info->vars->number_of_forks >= 1)
 			take_right_fork(info);
 		pthread_mutex_unlock(info->vars->mutex);
 		if (info->forks_held == 2)
 			philo_started_eating(info);
-		else if (info->forks_held == 1)
-			philo_is_dead_check(info);
-		// else if (info->forks_held == 0 && info->times_eaten == 0)
-		// 	philo_is_dead_check(info);
+		philo_is_dead_check(info);
 	}
 	return (NULL);
 }

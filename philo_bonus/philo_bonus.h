@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 00:38:15 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/04/18 22:41:42 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/05/12 20:52:56 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ typedef struct s_vars
 	int	time_to_sleep;
 	int number_of_times_each_philo_must_eat;
 	int	one_dead;
-	pthread_mutex_t *mutex;
+	// pthread_mutex_t *mutex;
+	sem_t *sem_forks;
 	int starting_time;
 	int i;
 	int *tab_forks;

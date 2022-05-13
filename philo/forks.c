@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/17 17:21:37 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/04/20 00:34:52 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/05/12 01:13:34 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,9 @@ void	take_right_fork(t_info *info)
 	info->vars->tab_forks[info->philo_id - 1] = 1;
 	if (check_left_fork_aviability(info) && info->vars->number_of_forks > 0)
 		take_left_fork(info);
+	// printf("%d forks held are %d\n",info->philo_id,info->forks_held);
+	// printf("forks li kaynin %d\n",info->vars->number_of_forks);
+
 }
 
 void	take_left_fork(t_info *info)
