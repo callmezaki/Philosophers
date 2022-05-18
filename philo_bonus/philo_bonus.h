@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 00:38:15 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/05/12 20:52:56 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/05/17 18:17:12 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@
 # include <stdlib.h>
 # include <pthread.h>
 # include <semaphore.h>
-#include <sys/time.h>
+# include <sys/time.h>
+# include <signal.h>
 # define true 1
 # define false 0
 
@@ -35,11 +36,13 @@ typedef struct s_vars
 	int	one_dead;
 	// pthread_mutex_t *mutex;
 	sem_t *sem_forks;
+	sem_t *sem_msg;
 	int starting_time;
 	int i;
+	int test;
 	int *tab_forks;
-	int *fork_id;
 	pthread_t *th;
+	int *fork_id;
 }	t_vars;
 
 typedef struct s_info
@@ -73,5 +76,6 @@ void	init_vars(int ac, char **av,t_vars *vars);
 void	init_philo_info(t_info *info, t_vars *vars);
 void	detach_all(t_vars *vars);
 void	print_think(t_info *info);
+void *ft_death(t_info *info);
 
 #endif

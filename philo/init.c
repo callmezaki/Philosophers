@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/17 17:21:32 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/04/18 01:36:40 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/05/14 00:19:44 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,16 @@ void init_vars(int ac, char **av,t_vars *vars)
 		vars->time_to_eat = ft_atoi(av[3]);
 		vars->time_to_sleep = atoi(av[4]);
 		vars->starting_time = get_msec_time();
+		// vars->f_mutex = malloc(sizeof(pthread_mutex_t *));
+		while(i < vars->nb_of_philos)
+		{
+			vars->f_mutex[i] = malloc(sizeof(pthread_mutex_t));
+			pthread_mutex_init(vars->f_mutex[i],NULL);
+			i++;
+		}
 		vars->tab_forks = malloc(sizeof(int) * vars->number_of_forks);
 		vars->one_dead = false;
+		i = 0;
 		while(i < vars->nb_of_philos)
 			vars->tab_forks[i++] = 0;
 		if (ac == 6)

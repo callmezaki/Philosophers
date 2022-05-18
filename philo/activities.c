@@ -6,44 +6,27 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/17 17:21:34 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/05/12 18:07:52 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/05/18 17:19:13 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-// void philo_is_dead_check(t_info *info)
-// {
-// 	int time;
-// 	int t;
-
-// 	if (info->vars->one_dead == true)
-// 		exit(0) ;
-// 	time = get_msec_time() - info->vars->starting_time;
-// 	t = get_msec_time() - info->time_to_eat;
-// 	if (get_msec_time() >= info->time_to_eat + info->vars->time_to_die)
-// 	{
-// 		printf("%d  philo %d is dead\n",t ,info->philo_id);
-// 		info->vars->one_dead = true;
-// 		exit(0);
-// 	}
-// }
 
 void philo_is_dead_check(t_info *info)
 {
 	int time;
 	int t;
 
-	// usleep(100);
 	if (info->vars->one_dead == true)
 		return ;
+	usleep(60);
 	t = get_msec_time() - info->time_to_eat;
 	time = get_msec_time() - info->vars->starting_time;
 	if (t >= info->vars->time_to_die)
 	{
 		printf("%d  philo %d is dead\n",t ,info->philo_id);
 		info->vars->one_dead = true;
-		exit(0);
+		return ;
 	}
 }
 
@@ -69,11 +52,15 @@ void	philo_sleeping(t_info *info)
 	{
 		info->vars->tab_forks[info->philo_id - 1] = 0;
 		info->vars->tab_forks[0] = 0;
+		pthread_mutex_unlock(info->vars->f_mutex[info->philo_id - 1]);
+ 		pthread_mutex_unlock(info->vars->f_mutex[0]);
 	}
 	else
 	{
 		info->vars->tab_forks[info->philo_id - 1] = 0;
 		info->vars->tab_forks[info->philo_id] = 0;
+		pthread_mutex_unlock(info->vars->f_mutex[info->philo_id - 1]);
+		pthread_mutex_unlock(info->vars->f_mutex[info->philo_id]);
 	}
 	info->vars->number_of_forks++;
 	info->vars->number_of_forks++;
@@ -105,7 +92,7 @@ void	philo_started_eating(t_info *info)
 	pthread_mutex_lock(info->vars->mutex);
 	info->times_eaten++;
 	pthread_mutex_unlock(info->vars->mutex);
-	usleep(100);
+	usleep(200);
 	while(1)
 	{
 		if (get_msec_time()  >= info->time_to_eat + info->vars->time_to_eat)

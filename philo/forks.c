@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/17 17:21:37 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/05/12 01:13:34 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/05/15 04:09:08 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	take_right_fork(t_info *info)
 	info->vars->number_of_forks--;
 	printf("%d  philo %d has taken a right fork\n",time ,info->philo_id);
 	info->vars->tab_forks[info->philo_id - 1] = 1;
+	pthread_mutex_lock(info->vars->f_mutex[info->philo_id - 1]);
 	if (check_left_fork_aviability(info) && info->vars->number_of_forks > 0)
 		take_left_fork(info);
 	// printf("%d forks held are %d\n",info->philo_id,info->forks_held);
@@ -37,9 +38,16 @@ void	take_left_fork(t_info *info)
 			return ;
 	time = get_msec_time() - info->vars->starting_time;
 	if(info->philo_id == info->vars->nb_of_philos)
-		info->vars->tab_forks[0] = 0;
+	{
+		info->vars->tab_forks[0] = 1;
+		pthread_mutex_lock(info->vars->f_mutex[0]);
+	}
 	else
+	{
 		info->vars->tab_forks[info->philo_id] = 1;
+		pthread_mutex_lock(info->vars->f_mutex[info->philo_id]);
+		
+	}
 	info->forks_held++;
 	info->vars->number_of_forks--;
 	printf("%d  philo %d has taken a left fork\n",time ,info->philo_id);
