@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 03:43:21 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/05/19 03:58:54 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/05/21 19:54:01 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	check_isdigit(int len, char **args)
 	int	j;
 
 	i = 0;
-	while (++i < len)
+	while (++i <= len)
 	{
 		j = 0;
 		if (!ft_strlen(args[i]))
@@ -66,7 +66,7 @@ int	check_int(int len, char **args)
 	int	i;
 
 	i = 1;
-	while (i < len)
+	while (i <= len)
 	{
 		if (ft_atoi(args[i]) > 2147483647 || ft_atoi(args[i]) < 0)
 		{

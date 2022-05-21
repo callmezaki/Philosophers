@@ -4,7 +4,6 @@ SRC =	philo_bonus.c \
 		ft_atoi_bonus.c \
 		activities_bonus.c \
 		init_bonus.c \
-		forks_bonus.c \
 		check_args_bonus.c \
 
 		
@@ -15,14 +14,7 @@ OBJS = $(SRC:.c=.o)
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	@cc  $(CFLAGS) -I $(INCLUDE) -o $@ $^  
-
-push:fclean
-	@rm -rf outfile
-	@git add .
-	@read -p "Message:" message; \
-	git commit -m "$$message"; \
-	git push
+	@cc  $(CFLAGS) -I $(INCLUDE) -o $@ $^
 
 clean:
 	@rm -f $(OBJS)

@@ -6,13 +6,13 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/01 10:06:33 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/04/16 00:39:59 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/05/21 23:05:56 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	ft_atoi(const char *str)
+long	ft_atoi(const char *str)
 {
 	size_t	i;
 	size_t	sign;

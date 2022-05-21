@@ -3,7 +3,6 @@ INCLUDE = philo.h
 SRC =	philo.c \
 		ft_atoi.c \
 		init.c \
-		forks.c \
 		activities.c \
 		check_args.c \
 		
@@ -14,14 +13,7 @@ OBJS = $(SRC:.c=.o)
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	@cc  $(CFLAGS) -I $(INCLUDE) -o $@ $^   
-
-push:fclean
-	@rm -rf outfile
-	@git add .
-	@read -p "Message:" message; \
-	git commit -m "$$message"; \
-	git push
+	@cc  $(CFLAGS) -I $(INCLUDE) -o $@ $^
 
 clean:
 	@rm -f $(OBJS)

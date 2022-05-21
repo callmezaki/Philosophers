@@ -6,94 +6,95 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/17 17:21:34 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/05/20 22:44:06 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/05/21 23:04:14 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
-// void philo_is_dead_check(t_info *info)
-// {
-// 	int time;
-// 	int t;
-
-// 	if (info->vars->one_dead == TRUE)
-// 		exit(0) ;
-// 	time = get_msec_time() - info->vars->starting_time;
-// 	t = get_msec_time() - info->time_to_eat;
-// 	if (get_msec_time() >= info->time_to_eat + info->vars->time_to_die)
-// 	{
-// 		printf("%d  philo %d is dead\n",t ,info->philo_id);
-// 		info->vars->one_dead = TRUE;
-// 		exit(0);
-// 	}
-// }
-
-void	print_think(t_info *info)
+void	take_a_fork(t_info *info)
 {
 	int	time;
 
-	if (info->vars->one_dead)
-		return ;
 	time = get_msec_time() - info->vars->starting_time;
-	printf("%d  philo %d is thinking\n", time, info->philo_id);
+	{
+		sem_wait(info->vars->sem_msg);
+		printf("%d  %d has taken a fork\n", time, info->ph_id);
+		sem_post(info->vars->sem_msg);
+	}
+}
+
+void	philo_eating(t_info *info)
+{
+	int	time;
+
+	time = get_msec_time() - info->vars->starting_time;
+	{
+		sem_wait(info->vars->sem_msg);
+		printf("%d  %d is eating\n", time, info->ph_id);
+		info->times_eaten++;
+		sem_post(info->vars->sem_msg);
+	}
+	info->time_to_eat = get_msec_time();
+	if (info->times_eaten == info->vars->times_phs_must_eat)
+	{
+		info->done_eating = TRUE;
+	}
+	while (1)
+	{
+		if (get_msec_time() >= info->time_to_eat + info->vars->time_to_eat)
+			break ;
+		usleep(50);
+	}
 }
 
 void	philo_sleeping(t_info *info)
 {
 	int	time;
 
-	if (info->vars->one_dead)
-		return ;
-	info->time_to_sleep = get_msec_time();
 	time = get_msec_time() - info->vars->starting_time;
-	sem_wait(info->vars->sem_forks);
-	info->forks_held = 0;
-	info->vars->number_of_forks=+2;
-	if (info->philo_id == info->vars->nb_of_philos)
-	{
-		info->vars->tab_forks[info->philo_id - 1] = 0;
-		info->vars->tab_forks[0] = 0;
+	{	
+		sem_wait(info->vars->sem_msg);
+		printf("%d  %d is sleeping\n", time, info->ph_id);
+		sem_post(info->vars->sem_msg);
 	}
-	else
-	{
-		info->vars->tab_forks[info->philo_id - 1] = 0;
-		info->vars->tab_forks[info->philo_id] = 0;
-	}
-	printf("%d  philo %d is sleeping\n", time, info->philo_id);
-	sem_post(info->vars->sem_forks);
+	info->time_to_sleep = get_msec_time();
 	while (1)
 	{
-		if (get_msec_time() >= info->time_to_sleep + info->vars->time_to_sleep)
+		if (get_msec_time() >= info->time_to_sleep
+			+ info->vars->time_to_sleep)
 			break ;
-		usleep(100);
+		usleep(50);
 	}
-	print_think(info);
 }
 
-void	record_last_eaten(t_info *info)
-{
-	info->time_to_eat = get_msec_time();
-}
-
-void	philo_started_eating(t_info *info)
+void	philo_thinking(t_info *info)
 {
 	int	time;
 
-	if (info->vars->one_dead)
-		return ;
-	usleep(300);
-	record_last_eaten(info);
 	time = get_msec_time() - info->vars->starting_time;
-	printf("%d  philo %d started eating\n", time, info->philo_id);
-	sem_wait(info->vars->sem_forks);
-	info->times_eaten++;
-	sem_post(info->vars->sem_forks);
-	while (1)
-	{
-		if (get_msec_time() >= info->time_to_eat + info->vars->time_to_eat)
-			break ;
-		usleep(100);
+	{	
+		sem_wait(info->vars->sem_msg);
+		printf("%d  %d is thinking\n", time, info->ph_id);
+		sem_post(info->vars->sem_msg);
 	}
-	philo_sleeping(info);
+}
+
+int	philo_is_dead_check(t_info *info)
+{
+	int	time;
+	int	t;
+
+	if (info->vars->done == TRUE)
+		return (0);
+	time = get_msec_time() - info->vars->starting_time;
+	t = get_msec_time() - info->time_to_eat;
+	if (t >= info->vars->time_to_die)
+	{
+		sem_wait(info->vars->sem_msg);
+		printf("%d  %d is died\n", t, info->ph_id);
+		info->vars->done = TRUE;
+		return (0);
+	}
+	return (1);
 }
