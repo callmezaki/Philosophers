@@ -5,6 +5,7 @@ SRC =	philo.c \
 		init.c \
 		forks.c \
 		activities.c \
+		check_args.c \
 		
 CFLAGS = -Wall -Wextra -Werror
 

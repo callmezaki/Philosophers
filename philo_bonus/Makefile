@@ -5,6 +5,7 @@ SRC =	philo_bonus.c \
 		activities_bonus.c \
 		init_bonus.c \
 		forks_bonus.c \
+		check_args_bonus.c \
 
 		
 CFLAGS = -Wall -Wextra -Werror
