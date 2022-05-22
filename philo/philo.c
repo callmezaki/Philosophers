@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 14:56:48 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/05/21 22:59:22 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/05/22 02:43:01 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,11 +75,13 @@ int	main(int ac, char **av)
 	t_vars	*vars;
 
 	vars = malloc(sizeof(t_vars));
-	vars->mutex = malloc(sizeof(pthread_mutex_t));
-	if (!init_vars(ac, av, vars))
+	if (!vars || !init_vars(ac, av, vars))
 		return (0);
+	vars->mutex = malloc(sizeof(pthread_mutex_t));
 	info = malloc(sizeof(t_info) * vars->nb_phs);
 	vars->th = malloc(sizeof(pthread_t) * vars->nb_phs);
+	if (!vars->mutex || !info || !vars->th)
+		return (0);
 	pthread_mutex_init(vars->mutex, NULL);
 	vars->i = -1;
 	while (++(vars->i) < vars->nb_phs)

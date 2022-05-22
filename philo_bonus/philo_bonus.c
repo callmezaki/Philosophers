@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 14:56:48 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/05/21 20:17:15 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/05/22 02:48:28 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ int	global_init(int ac, char **av, t_vars *vars)
 		return (0);
 	vars->th = malloc(sizeof(pthread_t) * vars->nb_phs);
 	vars->fork_id = malloc(sizeof(int) * vars->nb_phs);
+	if (!vars->th || !vars->fork_id)
+		exit(0);
 	sem_unlink("msg");
 	sem_unlink("forks");
 	vars->sem_forks = sem_open("forks", O_CREAT | O_EXCL,
@@ -82,9 +84,11 @@ int	main(int ac, char **av)
 	t_vars	*vars;
 
 	vars = malloc(sizeof(t_vars));
-	if (global_init(ac, av, vars) == 0)
-		return (0);
+	if (global_init(ac, av, vars) == 0 || !vars)
+		exit(0);
 	info = malloc(sizeof(t_info) * vars->nb_phs);
+	if (!info)
+		exit(0);
 	while (vars->i + 1 < vars->nb_phs)
 	{
 		vars->i += 1;

@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/17 17:21:32 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/05/21 23:04:40 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/05/22 02:49:02 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	init_vars(int ac, char **av, t_vars *vars)
 		if (!check_isdigit(ac - 1, av) || !check_int(ac - 1, av))
 		{
 			free(vars);
-			return (0);
+			exit(0);
 		}
 		init_args(av, vars);
 		if (ac == 6)

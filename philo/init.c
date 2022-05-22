@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/17 17:21:32 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/05/21 16:43:27 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/05/22 02:45:32 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ int	init_vars(int ac, char **av, t_vars *vars)
 		if (handle_args(ac, av, vars) == 0)
 			return (0);
 		vars->f_mutex = malloc(sizeof(pthread_mutex_t) * vars->nb_phs);
+		if (!vars->f_mutex)
+			return (0);
 		i = -1;
 		while (++i < vars->nb_phs)
 			pthread_mutex_init(&vars->f_mutex[i], NULL);
@@ -45,7 +47,6 @@ int	init_vars(int ac, char **av, t_vars *vars)
 	else
 	{
 		write(2, "Wrong number of args.\n", 22);
-		free(vars);
 		return (0);
 	}
 	return (1);
